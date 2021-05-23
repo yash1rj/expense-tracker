@@ -1,8 +1,10 @@
 import classes from './NewExpense.module.css';
-import React from 'react';
+import React, { useState } from 'react';
 import ExpenseForm from './ExpenseForm/ExpenseForm';
 
 const NewExpense = props => {
+
+    const [viewToggler, setViewToggler] = useState(false);
 
     const saveNewExpenseHandler = (enteredExpenseData) => {
         const expenseData = {
@@ -13,9 +15,19 @@ const NewExpense = props => {
         props.onGetNewExpense(expenseData);
     };
 
+    const expandNewExpenseHandler = () => {
+        setViewToggler(true);
+    };
+    
+    const collapseNewExpenseHandler = () => {
+        setViewToggler(false);
+    };
+
     return (
         <div className={classes.newExpense}>
-            <ExpenseForm onSaveNewExpense={saveNewExpenseHandler} />
+            {viewToggler 
+                ? <ExpenseForm clicked={collapseNewExpenseHandler} onSaveNewExpense={saveNewExpenseHandler} /> 
+                : <button onClick={expandNewExpenseHandler}>Add New Expense</button>}
         </div>
     );
 };
